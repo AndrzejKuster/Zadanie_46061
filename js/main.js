@@ -1,4 +1,4 @@
-console.log('warsztat - infinite sccroll');
+console.log('warsztat - infinite scroll');
 
 let endOfPage = 0;
 
@@ -8,51 +8,55 @@ const showPreloader = () => {
     let preLoader = document.getElementById('preLoader');
     console.log('-------------------preloader show');
     preLoader.style.display = 'block';
+    preLoading = true;
 }
 
 const hidePreloader = () => {
     let preLoader = document.getElementById('preLoader');
     console.log('++++++++++++++!preloader hide!+++++++++++++++++');
     preLoader.style.display = 'none';
+    preLoading = false;
 }
 
 const getData = () => {
     if (!preLoading) {
+        showPreloader();
+
         fetch('https://akademia108.pl/api/ajax/get-users.php')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            let body = document.body;
-            let hr = document.createElement('hr');
-            body.appendChild(hr);
-    
-            for (let user of data) {
-                let pID = document.createElement('p');
-                let pName = document.createElement('p');
-                let pWebsite = document.createElement('p');
-    
-                pID.innerText = `User ID: ${user.id}`;
-                pName.innerText = `User Name: ${user.name}`;
-                pWebsite.innerHTML = `User URL: ${user.website}<br />------`;
-    
-                
-                body.appendChild(pID);
-                body.appendChild(pName);
-                body.appendChild(pWebsite);
-            }
-            hidePreloader();
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let body = document.body;
+                let hr = document.createElement('hr');
+                body.appendChild(hr);
+
+                for (let user of data) {
+                    let pID = document.createElement('p');
+                    let pName = document.createElement('p');
+                    let pWebsite = document.createElement('p');
+
+                    pID.innerText = `User ID: ${user.id}`;
+                    pName.innerText = `User Name: ${user.name}`;
+                    pWebsite.innerHTML = `User URL: ${user.website}<br />------`;
+
+
+                    body.appendChild(pID);
+                    body.appendChild(pName);
+                    body.appendChild(pWebsite);
+                }
+                hidePreloader();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
-    preLoading = true;
+    // preLoading = true;
     console.log('getData');
-    
+
 }
 
-const scrollToAndOfPage = () => {
-    console.log('scrollToAndOfPage');
+const scrollToEndOfPage = () => {
+    console.log('scrollToEndOfPage');
 
     let doc = document.documentElement;
 
@@ -74,11 +78,11 @@ const scrollToAndOfPage = () => {
         endOfPage += 1;
         console.log(`przeskrolowane do końca strony ${endOfPage}`);
 
-        showPreloader();
+        // showPreloader();
 
         getData();
     }
-    
+
 }
 
-window.addEventListener('scroll', scrollToAndOfPage);
+window.addEventListener('scroll', scrollToEndOfPage);
