@@ -20,6 +20,7 @@ const hidePreloader = () => {
 
 const getData = () => {
     if (!preLoading) {
+        
         showPreloader();
 
         fetch('https://akademia108.pl/api/ajax/get-users.php')
@@ -45,6 +46,7 @@ const getData = () => {
                     body.appendChild(pWebsite);
                 }
                 hidePreloader();
+                // setTimeout(hidePreloader, 1000);
             })
             .catch(error => {
                 console.log(error);
